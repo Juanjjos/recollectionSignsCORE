@@ -1,0 +1,31 @@
+<header class="bg-gradient-to-r from-green-600 to-blue-600 text-white">
+  <div class="container mx-auto px-4 py-8">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Tarifa Diferencial UTP
+      </h1>
+      <p class="text-xl md:text-2xl mb-6">
+        Por un transporte público accesible para estudiantes
+      </p>
+      
+      <!-- Contador de firmas -->
+      <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl mx-auto">
+        <div class="text-5xl font-bold mb-2">
+          {{ firmasTotales.toLocaleString() }}
+        </div>
+        <div class="text-lg mb-4">firmas recolectadas</div>
+        
+        <!-- Barra de progreso -->
+        <div class="w-full bg-white/20 rounded-full h-4">
+          <div 
+            class="bg-yellow-400 h-4 rounded-full transition-all duration-500"
+            [style.width.%]="porcentajeProgreso">
+          </div>
+        </div>
+        <div class="mt-2 text-sm">
+          Meta: {{ metaFirmas.toLocaleString() }} firmas
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

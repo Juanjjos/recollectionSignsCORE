@@ -1,0 +1,186 @@
+<div class="max-w-3xl mx-auto px-4 py-12">
+  
+  <!-- Mensaje de éxito -->
+  <div *ngIf="exitoso" class="mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
+    <p class="font-bold">¡Gracias por tu firma!</p>
+    <p>Tu apoyo es fundamental para lograr la tarifa diferencial.</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+    <p class="font-bold">Error</p>
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Formulario -->
+  <form [formGroup]="firmaForm" (ngSubmit)="onSubmit()" class="bg-white shadow-lg rounded-lg p-8">
+    
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+      Firma la petición
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Nombre -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Nombre *</label>
+        <input 
+          type="text" 
+          formControlName="nombre"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('nombre')"
+          placeholder="Tu nombre">
+        <p *ngIf="esInvalido('nombre')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('nombre') }}
+        </p>
+      </div>
+
+      <!-- Apellido -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Apellido *</label>
+        <input 
+          type="text" 
+          formControlName="apellido"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('apellido')"
+          placeholder="Tu apellido">
+        <p *ngIf="esInvalido('apellido')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('apellido') }}
+        </p>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Email *</label>
+        <input 
+          type="email" 
+          formControlName="email"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('email')"
+          placeholder="tu@email.com">
+        <p *ngIf="esInvalido('email')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('email') }}
+        </p>
+      </div>
+
+      <!-- Teléfono -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Teléfono *</label>
+        <input 
+          type="tel" 
+          formControlName="telefono"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('telefono')"
+          placeholder="3001234567">
+        <p *ngIf="esInvalido('telefono')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('telefono') }}
+        </p>
+      </div>
+
+      <!-- Cédula -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Cédula *</label>
+        <input 
+          type="text" 
+          formControlName="cedula"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('cedula')"
+          placeholder="1234567890">
+        <p *ngIf="esInvalido('cedula')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('cedula') }}
+        </p>
+      </div>
+
+      <!-- Ciudad -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Ciudad *</label>
+        <input 
+          type="text" 
+          formControlName="ciudad"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('ciudad')">
+        <p *ngIf="esInvalido('ciudad')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('ciudad') }}
+        </p>
+      </div>
+
+      <!-- Tipo de persona -->
+      <div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-2">Eres *</label>
+        <select 
+          formControlName="tipoPersona"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('tipoPersona')">
+          <option value="">Selecciona una opción</option>
+          <option *ngFor="let tipo of tiposPersona" [value]="tipo.valor">
+            {{ tipo.label }}
+          </option>
+        </select>
+        <p *ngIf="esInvalido('tipoPersona')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('tipoPersona') }}
+        </p>
+      </div>
+
+      <!-- Programa académico (solo si es estudiante/docente/egresado) -->
+      <div *ngIf="mostrarPrograma" class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-2">Programa Académico *</label>
+        <select 
+          formControlName="programa"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('programa')">
+          <option value="">Selecciona tu programa</option>
+          <option *ngFor="let programa of programasAcademicos" [value]="programa">
+            {{ programa }}
+          </option>
+        </select>
+        <p *ngIf="esInvalido('programa')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('programa') }}
+        </p>
+      </div>
+
+      <!-- Comentario -->
+      <div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-2">
+          Comentario (opcional)
+        </label>
+        <textarea 
+          formControlName="comentario"
+          rows="4"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="¿Por qué apoyas esta iniciativa?"></textarea>
+      </div>
+
+      <!-- Términos y condiciones -->
+      <div class="md:col-span-2">
+        <label class="flex items-start">
+          <input 
+            type="checkbox" 
+            formControlName="aceptaTerminos"
+            class="mt-1 mr-2 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
+          <span class="text-sm text-gray-700">
+            Acepto que mis datos sean utilizados para esta petición y entiendo que 
+            serán compartidos con las autoridades competentes. *
+          </span>
+        </label>
+        <p *ngIf="esInvalido('aceptaTerminos')" class="text-red-500 text-sm mt-1">
+          Debes aceptar los términos
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Botón de envío -->
+    <div class="mt-8">
+      <button 
+        type="submit"
+        [disabled]="enviando"
+        class="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white font-bold py-3 px-6 rounded-lg 
+               hover:from-green-700 hover:to-blue-700 transition duration-300 
+               disabled:opacity-50 disabled:cursor-not-allowed">
+        <span *ngIf="!enviando">Firmar petición</span>
+        <span *ngIf="enviando">Enviando...</span>
+      </button>
+    </div>
+
+  </form>
+</div>
