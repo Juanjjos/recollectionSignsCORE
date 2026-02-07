@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FirebaseService } from '../../services/firebase_Service';
+import { FirmaCounterService } from '../../services/firma-counter.service';
 
 @Component({
   selector: 'app-formulario-firma',
@@ -11,6 +12,8 @@ import { FirebaseService } from '../../services/firebase_Service';
   styleUrl: './formulario_firmas.css'
 })
 export class Formulario_firmaComponent {
+  @Output() firmaGuardada = new EventEmitter<void>(); // ← NUEVO
+
   firmaForm: FormGroup;
   enviando: boolean = false;
   exitoso: boolean = false;
@@ -42,7 +45,8 @@ export class Formulario_firmaComponent {
 
   constructor(
     private fb: FormBuilder,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private firmaCounterService: FirmaCounterService
   ) {
     this.firmaForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -58,7 +62,6 @@ export class Formulario_firmaComponent {
       aceptaTerminos: [false, [Validators.requiredTrue]]
     });
 
-    // Hacer campo "programa" obligatorio si es estudiante/docente/egresado
     this.firmaForm.get('tipoPersona')?.valueChanges.subscribe(tipo => {
       const programaControl = this.firmaForm.get('programa');
       if (tipo === 'estudiante' || tipo === 'docente' || tipo === 'egresado') {
@@ -80,6 +83,8 @@ export class Formulario_firmaComponent {
       try {
         await this.firebaseService.guardarFirma(this.firmaForm.value);
         this.exitoso = true;
+        this.firmaGuardada.emit(); // ← EMITIR EVENTO
+        this.firmaCounterService.incrementarContador(); // ← NOTIFICAR AL SERVICIO
         this.firmaForm.reset();
         this.firmaForm.patchValue({ 
           ciudad: 'Pereira',
@@ -87,10 +92,8 @@ export class Formulario_firmaComponent {
           aceptaTerminos: false 
         });
 
-        // Scroll al mensaje de éxito
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Ocultar mensaje después de 8 segundos
         setTimeout(() => {
           this.exitoso = false;
         }, 8000);

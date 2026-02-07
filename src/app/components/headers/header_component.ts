@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FirebaseService } from '../../services/firebase_Service';
+import { FirmaCounterService } from '../../services/firma-counter.service';
 
 @Component({
   selector: 'app-header',
@@ -13,11 +13,11 @@ export class HeaderComponent implements OnInit {
   firmasTotales: number = 0;
   metaFirmas: number = 10000;
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firmaCounterService: FirmaCounterService) {}
 
   ngOnInit() {
-    this.firebaseService.obtenerFirmas().subscribe(firmas => {
-      this.firmasTotales = firmas.length;
+    this.firmaCounterService.obtenerContador().subscribe(contador => {
+      this.firmasTotales = contador;
     });
   }
 

@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, Timestamp } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Firestore, collection, addDoc, getDocs, Timestamp } from '@angular/fire/firestore';
 import { Firma } from '../models/firma_interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  
-  constructor(private firestore: Firestore) {}
+  private firestore: Firestore = inject(Firestore);
 
   // Guardar una firma
   async guardarFirma(firma: Omit<Firma, 'id' | 'fecha'>): Promise<void> {
@@ -26,17 +24,23 @@ export class FirebaseService {
   }
 
   // Obtener todas las firmas (para exportar)
-  obtenerFirmas(): Observable<Firma[]> {
-    const firmasCollection = collection(this.firestore, 'firmas');
-    return collectionData(firmasCollection, { idField: 'id' }) as Observable<Firma[]>;
+  async obtenerFirmas(): Promise<Firma[]> {
+    try {
+      const firmasCollection = collection(this.firestore, 'firmas');
+      const snapshot = await getDocs(firmasCollection);
+      return snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      } as Firma));
+    } catch (error) {
+      console.error('Error al obtener firmas:', error);
+      return [];
+    }
   }
 
   // Contar firmas totales
   async contarFirmas(): Promise<number> {
-    return new Promise((resolve) => {
-      this.obtenerFirmas().subscribe(firmas => {
-        resolve(firmas.length);
-      });
-    });
+    const firmas = await this.obtenerFirmas();
+    return firmas.length;
   }
 }
