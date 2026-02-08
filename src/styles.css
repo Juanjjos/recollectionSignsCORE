@@ -1,1 +1,175 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animaciones personalizadas */
+@layer utilities {
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -30px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 40px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translate3d(-40px, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+    }
+  }
+
+  .animate-blob {
+    @apply animate-[blob_7s_infinite];
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .animate-fadeInDown {
+    @apply animate-[fadeInDown_0.6s_ease-out];
+  }
+
+  .animate-slideInUp {
+    @apply animate-[slideInUp_0.6s_ease-out];
+  }
+
+  .animate-slideInLeft {
+    @apply animate-[slideInLeft_0.6s_ease-out];
+  }
+
+  .animate-float {
+    @apply animate-[float_3s_ease-in-out_infinite];
+  }
+
+  .animate-glow {
+    @apply animate-[glow_2s_ease-in-out_infinite];
+  }
+}
+
+/* Componentes personalizados */
+@layer components {
+  .btn-primary {
+    @apply px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 transform;
+  }
+
+  .btn-secondary {
+    @apply px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 transform;
+  }
+
+  .btn-outline {
+    @apply px-8 py-4 border-2 border-green-600 text-green-600 font-bold rounded-xl hover:bg-green-50 transition-all duration-300;
+  }
+
+  .signature-box {
+    @apply border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gradient-to-br from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 transition-all duration-300 shadow-md;
+  }
+
+  .card-container {
+    @apply bg-white rounded-2xl shadow-md p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-gray-100 transform;
+  }
+
+  .card-hover {
+    @apply bg-white rounded-lg shadow-md p-6 hover:shadow-xl hover:scale-105 hover:-translate-y-2 transition-all duration-300 border border-gray-100;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-black text-center mb-12 text-gray-800 tracking-tight;
+  }
+
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent font-black;
+  }
+
+  .feature-card {
+    @apply bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:scale-105 transform;
+  }
+
+  .stat-box {
+    @apply bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6 border-2 border-green-200 text-center hover:shadow-lg transition-all;
+  }
+}
+
+/* Estilos generales */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gray-50;
+}
+
+/* Mejoras en las secciones */
+section {
+  @apply scroll-mt-20;
+}
+
+/* Footer mejorado */
+footer {
+  @apply bg-gradient-to-r from-gray-900 to-gray-800 text-white;
+}
+
+/* Links con efecto */
+a {
+  @apply transition-all duration-300;
+}
+
+/* Import legacy app styles if needed */
+@import "./app/app.css";

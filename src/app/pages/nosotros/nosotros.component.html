@@ -1,27 +1,115 @@
-<section class="py-16 bg-white">
+<section class="py-20 bg-gradient-to-br from-white via-green-50 to-blue-50">
   <div class="container mx-auto px-4">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">Quiénes Somos</h2>
+      <h2 class="section-title text-6xl mb-4 animate-fadeInDown">
+        Quiénes <span class="gradient-text">Somos</span>
+      </h2>
       
-      <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+      <p class="text-xl text-gray-700 mb-12 leading-relaxed text-center max-w-2xl mx-auto">
         Somos un movimiento de estudiantes de la Universidad Tecnológica de Pereira 
-        Unidos por una causa común: lograr una tarifa diferencial en el transporte público.
+        unidos por una causa común: lograr una tarifa diferencial en el transporte público.
       </p>
       
-      <div class="bg-gray-50 p-8 rounded-lg">
-        <h3 class="text-2xl font-bold mb-4 text-gray-800">Nuestra Misión</h3>
-        <p class="text-gray-700 mb-6">
-          Luchar por los derechos de los estudiantes y conseguir que el transporte público 
-          sea más accesible económicamente para todos.
-        </p>
+      <!-- Contenedor principal con gradiente -->
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <!-- Card izquierda -->
+        <div class="feature-card bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 animate-slideInLeft">
+          <div class="text-6xl mb-4">🎯</div>
+          <h3 class="text-3xl font-black text-gray-800 mb-4">Nuestra Misión</h3>
+          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+            Luchar por los derechos de los estudiantes y conseguir que el transporte público 
+            sea más accesible económicamente para todos los miembros de la comunidad universitaria.
+          </p>
+          <div class="pt-6 border-t-2 border-green-300">
+            <p class="text-sm font-semibold text-green-700">Objetivo Principal:</p>
+            <p class="text-gray-700 font-bold mt-2">Reducción del 50% en la tarifa de transporte para estudiantes</p>
+          </div>
+        </div>
         
-        <h3 class="text-2xl font-bold mb-4 text-gray-800">Nuestros Valores</h3>
-        <ul class="list-disc list-inside text-gray-700 space-y-2">
-          <li>Solidaridad con nuestros compañeros estudiantes</li>
-          <li>Transparencia en nuestras acciones</li>
-          <li>Compromiso con el cambio social</li>
-          <li>Unidad en la diversidad</li>
-        </ul>
+        <!-- Card derecha -->
+        <div class="feature-card bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-300 animate-slideInLeft" style="animation-delay: 0.1s">
+          <div class="text-6xl mb-4">💪</div>
+          <h3 class="text-3xl font-black text-gray-800 mb-4">Nuestros Valores</h3>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">🤝</span>
+              <div>
+                <p class="font-bold text-gray-800">Solidaridad</p>
+                <p class="text-gray-600">Con nuestros compañeros estudiantes</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">👁️</span>
+              <div>
+                <p class="font-bold text-gray-800">Transparencia</p>
+                <p class="text-gray-600">En nuestras acciones y gestión</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">🔥</span>
+              <div>
+                <p class="font-bold text-gray-800">Compromiso</p>
+                <p class="text-gray-600">Con el cambio social real</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sección de identidad -->
+      <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-2xl p-12 mb-12 shadow-2xl">
+        <h3 class="text-4xl font-black mb-8 text-center">¿Por Qué Existimos?</h3>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="text-5xl mb-4">🚀</div>
+            <p class="text-lg font-semibold">Iniciativa Estudiantil</p>
+            <p class="text-sm mt-2 opacity-90">Nacimos del clamor de la comunidad estudiantil</p>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl mb-4">⚡</div>
+            <p class="text-lg font-semibold">Movimiento Activo</p>
+            <p class="text-sm mt-2 opacity-90">Trabajamos día a día por el cambio</p>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl mb-4">🌟</div>
+            <p class="text-lg font-semibold">Impacto Real</p>
+            <p class="text-sm mt-2 opacity-90">Buscamos transformar la realidad</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de participación -->
+      <div class="space-y-6">
+        <h3 class="text-3xl font-black text-gray-800 mb-6">¿Cómo Somos?</h3>
+        
+        <div class="card-hover border-l-4 border-green-500">
+          <h4 class="text-2xl font-bold text-green-700 mb-2 flex items-center gap-2">
+            <span>📊</span> Organizados
+          </h4>
+          <p class="text-gray-700">
+            Con grupos de trabajo especializados en diferentes áreas: comunicación, logística, 
+            negociaciones y redes sociales.
+          </p>
+        </div>
+        
+        <div class="card-hover border-l-4 border-blue-500">
+          <h4 class="text-2xl font-bold text-blue-700 mb-2 flex items-center gap-2">
+            <span>🌍</span> Inclusivos
+          </h4>
+          <p class="text-gray-700">
+            Cualquier estudiante puede participar en nuestro movimiento sin importar 
+            su carrera o año académico.
+          </p>
+        </div>
+        
+        <div class="card-hover border-l-4 border-purple-500">
+          <h4 class="text-2xl font-bold text-purple-700 mb-2 flex items-center gap-2">
+            <span>🎯</span> Enfocados
+          </h4>
+          <p class="text-gray-700">
+            Mantenemos siempre nuestros objetivos claros y trabajamos con estrategia para lograrlos.
+          </p>
+        </div>
       </div>
     </div>
   </div>

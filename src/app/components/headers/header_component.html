@@ -1,29 +1,62 @@
-<header class="bg-gradient-to-r from-green-600 to-blue-600 text-white">
-  <div class="container mx-auto px-4 py-8">
+<header class="bg-gradient-to-br from-green-600 via-emerald-500 to-cyan-600 text-white relative overflow-hidden">
+  <!-- Fondo animado decorativo -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+    <div class="absolute top-0 right-0 w-96 h-96 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+  </div>
+
+  <div class="container mx-auto px-4 py-12 relative z-10">
     <div class="text-center">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">
-        Tarifa Diferencial UTP
+      <h1 class="text-5xl md:text-6xl font-black mb-4 tracking-tight animate-fadeInDown">
+        🚌 Tarifa Diferencial UTP
       </h1>
-      <p class="text-xl md:text-2xl mb-6">
-        Por un transporte público accesible para estudiantes
+      <p class="text-xl md:text-2xl mb-8 font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
+        Por un transporte público accesible y equitativo para todos los estudiantes
       </p>
       
-      <!-- Contador de firmas -->
-      <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-2xl mx-auto">
-        <div class="text-5xl font-bold mb-2">
-          {{ firmasTotales.toLocaleString() }}
+      <!-- Contador de firmas mejorado -->
+      <div class="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl rounded-2xl p-8 max-w-2xl mx-auto border border-white/20 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+        <!-- Número de firmas principal -->
+        <div class="mb-6">
+          <div class="text-7xl md:text-8xl font-black text-yellow-300 mb-2 animate-pulse">
+            {{ firmasTotales.toLocaleString() }}
+          </div>
+          <div class="text-xl md:text-2xl font-semibold">firmas recolectadas</div>
         </div>
-        <div class="text-lg mb-4">firmas recolectadas</div>
         
-        <!-- Barra de progreso -->
-        <div class="w-full bg-white/20 rounded-full h-4">
-          <div 
-            class="bg-yellow-400 h-4 rounded-full transition-all duration-500"
-            [style.width.%]="porcentajeProgreso">
+        <!-- Barra de progreso mejorada -->
+        <div class="space-y-3">
+          <div class="text-sm font-semibold uppercase tracking-widest opacity-80">
+            Progreso de la campaña
+          </div>
+          <div class="w-full bg-white/10 rounded-full h-6 overflow-hidden border-2 border-white/20">
+            <div 
+              class="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 h-6 rounded-full transition-all duration-700 shadow-lg flex items-center justify-end pr-3"
+              [style.width.%]="porcentajeProgreso">
+              <span *ngIf="porcentajeProgreso > 10" class="text-xs font-bold text-gray-900">
+                {{ porcentajeProgreso.toFixed(0) }}%
+              </span>
+            </div>
+          </div>
+          <div class="flex justify-between text-sm font-medium">
+            <span>{{ firmasTotales.toLocaleString() }}</span>
+            <span>Meta: {{ metaFirmas.toLocaleString() }} firmas</span>
           </div>
         </div>
-        <div class="mt-2 text-sm">
-          Meta: {{ metaFirmas.toLocaleString() }} firmas
+
+        <!-- Motivación -->
+        <div class="mt-6 pt-6 border-t border-white/10">
+          <p class="text-sm opacity-80">
+            <span *ngIf="porcentajeProgreso < 50" class="animate-bounce">
+              ¡Vamos, que podemos! 💪
+            </span>
+            <span *ngIf="porcentajeProgreso >= 50 && porcentajeProgreso < 100" class="text-yellow-300 font-semibold">
+              ¡Ya estamos más cerca! 🎉
+            </span>
+            <span *ngIf="porcentajeProgreso >= 100" class="text-green-300 font-semibold">
+              ¡OBJETIVO ALCANZADO! 🏆
+            </span>
+          </p>
         </div>
       </div>
     </div>

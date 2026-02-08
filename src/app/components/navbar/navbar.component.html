@@ -1,53 +1,105 @@
-<nav class="bg-gradient-to-r from-green-600 to-blue-600 text-white shadow-lg">
+<nav class="bg-gradient-to-r from-green-600 via-emerald-600 to-blue-600 text-white shadow-2xl sticky top-0 z-50">
   <div class="container mx-auto px-4">
-    <div class="flex justify-between items-center py-4">
-      <!-- Logo/Nombre -->
-      <div class="text-2xl font-bold">
-        <a routerLink="/" class="hover:text-gray-200 transition">Tarifa UTP</a>
-      </div>
+    <div class="flex justify-between items-center py-5">
+      <!-- Logo/Nombre con hover effect -->
+      <div class="hover:scale-105 transition-transform duration-300">
+        <a routerLink="/">
+        <img
+          src="assets/Logo.png"
+          alt="CORE UTP Logo"
+          class="h-16 w-16 rounded-full object-covershadow-lg">
+        </a>
+    </div>
 
       <!-- Menu Desktop -->
-      <div class="hidden md:flex space-x-8">
-        <a routerLink="/" routerLinkActive="border-b-2 border-yellow-400" [routerLinkActiveOptions]="{exact: true}" 
-           class="hover:text-gray-200 transition pb-2">
+      <div class="hidden md:flex space-x-1">
+        <a 
+          routerLink="/" 
+          routerLinkActive="bg-white/20 border-b-4 border-yellow-400" 
+          [routerLinkActiveOptions]="{exact: true}"
+          class="hover:bg-white/10 transition-all px-4 py-2 rounded-t-lg font-semibold">
           Inicio
         </a>
-        <a routerLink="/nosotros" routerLinkActive="border-b-2 border-yellow-400" 
-           class="hover:text-gray-200 transition pb-2">
+        <a 
+          routerLink="/nosotros" 
+          routerLinkActive="bg-white/20 border-b-4 border-yellow-400"
+          class="hover:bg-white/10 transition-all px-4 py-2 rounded-t-lg font-semibold">
           Nosotros
         </a>
-        <a routerLink="/logros" routerLinkActive="border-b-2 border-yellow-400" 
-           class="hover:text-gray-200 transition pb-2">
+        <a 
+          routerLink="/logros" 
+          routerLinkActive="bg-white/20 border-b-4 border-yellow-400"
+          class="hover:bg-white/10 transition-all px-4 py-2 rounded-t-lg font-semibold">
           Logros
         </a>
-        <a routerLink="/campanas" routerLinkActive="border-b-2 border-yellow-400" 
-           class="hover:text-gray-200 transition pb-2">
+        <a 
+          routerLink="/campanas" 
+          routerLinkActive="bg-white/20 border-b-4 border-yellow-400"
+          class="hover:bg-white/10 transition-all px-4 py-2 rounded-t-lg font-semibold">
           Campañas
         </a>
-        <a routerLink="/aportes" routerLinkActive="border-b-2 border-yellow-400" 
-           class="hover:text-gray-200 transition pb-2">
+        <a 
+          routerLink="/aportes" 
+          routerLinkActive="bg-white/20 border-b-4 border-yellow-400"
+          class="hover:bg-white/10 transition-all px-4 py-2 rounded-t-lg font-semibold">
           Aportes
         </a>
-        <a routerLink="/firmas" routerLinkActive="border-b-2 border-yellow-400" 
-           class="bg-yellow-500 text-gray-900 px-4 py-2 rounded font-bold hover:bg-yellow-600 transition">
-          Firmar
+        <a 
+          routerLink="/firmas"
+          class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-6 py-2 rounded-full font-bold hover:from-yellow-500 hover:to-yellow-600 transition-all shadow-lg hover:shadow-xl ml-2 hover:scale-105 transform">
+          ✍️ Firmar
         </a>
       </div>
 
       <!-- Menu Mobile (Hamburger) -->
-      <button (click)="toggleMenu()" class="md:hidden text-2xl">
-        <span>☰</span>
+      <button 
+        (click)="toggleMenu()" 
+        class="md:hidden text-3xl hover:scale-110 transition-transform">
+        <span *ngIf="!isMenuOpen">☰</span>
+        <span *ngIf="isMenuOpen">✕</span>
       </button>
     </div>
 
-    <!-- Menu Mobile Expandido -->
-    <div *ngIf="isMenuOpen" class="md:hidden pb-4 space-y-2">
-      <a routerLink="/" (click)="closeMenu()" class="block py-2 hover:text-gray-200 transition">Inicio</a>
-      <a routerLink="/nosotros" (click)="closeMenu()" class="block py-2 hover:text-gray-200 transition">Nosotros</a>
-      <a routerLink="/logros" (click)="closeMenu()" class="block py-2 hover:text-gray-200 transition">Logros</a>
-      <a routerLink="/campanas" (click)="closeMenu()" class="block py-2 hover:text-gray-200 transition">Campañas</a>
-      <a routerLink="/aportes" (click)="closeMenu()" class="block py-2 hover:text-gray-200 transition">Aportes</a>
-      <a routerLink="/firmas" (click)="closeMenu()" class="block bg-yellow-500 text-gray-900 px-4 py-2 rounded font-bold hover:bg-yellow-600 transition">Firmar</a>
+    <!-- Menu Mobile Expandido con animación -->
+    <div 
+      *ngIf="isMenuOpen" 
+      class="md:hidden pb-4 space-y-2 animate-fadeIn border-t border-white/20 pt-4">
+      <a 
+        routerLink="/" 
+        (click)="closeMenu()" 
+        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
+        Inicio
+      </a>
+      <a 
+        routerLink="/nosotros" 
+        (click)="closeMenu()" 
+        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
+        Nosotros
+      </a>
+      <a 
+        routerLink="/logros" 
+        (click)="closeMenu()" 
+        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
+        Logros
+      </a>
+      <a 
+        routerLink="/campanas" 
+        (click)="closeMenu()" 
+        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
+        Campañas
+      </a>
+      <a 
+        routerLink="/aportes" 
+        (click)="closeMenu()" 
+        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
+        Aportes
+      </a>
+      <a 
+        routerLink="/firmas" 
+        (click)="closeMenu()" 
+        class="block bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-4 py-3 rounded-lg font-bold hover:from-yellow-500 hover:to-yellow-600 transition-all">
+        ✍️ Firmar
+      </a>
     </div>
   </div>
 </nav>

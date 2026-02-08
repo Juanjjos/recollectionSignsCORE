@@ -1,41 +1,171 @@
-<section class="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
+<section class="py-20 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
   <div class="container mx-auto px-4">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">¿Cómo Puedo Contribuir?</h2>
+    <div class="max-w-5xl mx-auto">
+      <h2 class="section-title text-6xl mb-4 animate-fadeInDown">
+        ¿Cómo Puedo <span class="gradient-text">Contribuir</span>?
+      </h2>
       
-      <div class="grid md:grid-cols-3 gap-8 mb-12">
-        <div class="bg-white p-6 rounded-lg shadow-md text-center">
-          <div class="text-4xl mb-4">✍️</div>
-          <h3 class="text-xl font-bold mb-3">Firmar</h3>
-          <p class="text-gray-600">Tu firma es tu voto por un cambio.</p>
+      <p class="text-center text-xl text-gray-600 mb-16 max-w-3xl mx-auto">
+        Hay muchas formas de ser parte del cambio. Cada contribución, grande o pequeña, 
+        nos acerca más a lograr la tarifa diferencial.
+      </p>
+
+      <!-- Formas de contribuir -->
+      <div class="grid md:grid-cols-3 gap-8 mb-16">
+        <div class="feature-card bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-400 group hover:border-green-600 animate-slideInUp" style="animation-delay: 0s">
+          <div class="text-8xl mb-4 group-hover:scale-110 transition-transform duration-300">✍️</div>
+          <h3 class="text-2xl font-black text-green-700 mb-4">Firma</h3>
+          <p class="text-gray-700 text-lg leading-relaxed mb-6">
+            Tu firma es tu voto por un cambio. Es la forma más directa de apoyar nuestra causa.
+          </p>
+          <a routerLink="/firmas" class="btn-primary inline-block w-full text-center">
+            Firmar Ahora
+          </a>
         </div>
         
-        <div class="bg-white p-6 rounded-lg shadow-md text-center">
-          <div class="text-4xl mb-4">📣</div>
-          <h3 class="text-xl font-bold mb-3">Difundir</h3>
-          <p class="text-gray-600">Comparte nuestro movimiento en redes sociales.</p>
+        <div class="feature-card bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-400 group hover:border-blue-600 animate-slideInUp" style="animation-delay: 0.1s">
+          <div class="text-8xl mb-4 group-hover:scale-110 transition-transform duration-300">📣</div>
+          <h3 class="text-2xl font-black text-blue-700 mb-4">Difunde</h3>
+          <p class="text-gray-700 text-lg leading-relaxed mb-6">
+            Comparte nuestro movimiento en redes sociales y con tus amigos. El boca a boca es poderoso.
+          </p>
+          <button class="btn-secondary inline-block w-full">
+            Descarga Material
+          </button>
         </div>
         
-        <div class="bg-white p-6 rounded-lg shadow-md text-center">
-          <div class="text-4xl mb-4">🤝</div>
-          <h3 class="text-xl font-bold mb-3">Participar</h3>
-          <p class="text-gray-600">Únete a nuestros eventos y actividades.</p>
+        <div class="feature-card bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-400 group hover:border-purple-600 animate-slideInUp" style="animation-delay: 0.2s">
+          <div class="text-8xl mb-4 group-hover:scale-110 transition-transform duration-300">🤝</div>
+          <h3 class="text-2xl font-black text-purple-700 mb-4">Participa</h3>
+          <p class="text-gray-700 text-lg leading-relaxed mb-6">
+            Únete a nuestros eventos, asambleas y actividades. Tu voz y presencia importan.
+          </p>
+          <button class="btn-outline inline-block w-full font-bold">
+            Contacta Aquí
+          </button>
         </div>
       </div>
 
-      <div class="bg-white p-8 rounded-lg shadow-md">
-        <h3 class="text-2xl font-bold mb-6">Contacto y Redes Sociales</h3>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div>
-            <p class="font-bold text-gray-800 mb-2">📧 Email:</p>
-            <p class="text-gray-600">contacto@tarifautp.com</p>
-          </div>
-          <div>
-            <p class="font-bold text-gray-800 mb-2">📱 Redes Sociales:</p>
-            <p class="text-gray-600">@TarifaUTP en todas las plataformas</p>
-          </div>
+      <!-- Secciones de contribución detalladas -->
+      <div class="space-y-8 mb-16">
+        <h3 class="text-4xl font-black text-gray-800 text-center mb-12">
+          🌟 Formas Específicas de Ayudar
+        </h3>
+        
+        <!-- Estudiantes -->
+        <div class="card-hover bg-gradient-to-r from-green-50 to-blue-50 border-l-8 border-green-600">
+          <h4 class="text-3xl font-black text-green-700 mb-4 flex items-center gap-3">
+            <span class="text-4xl">🎓</span> Para Estudiantes
+          </h4>
+          <ul class="grid md:grid-cols-2 gap-6 text-gray-800">
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Firma la petición en persona o de forma online</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Invita a amigos a que firmen también</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Participa en eventos y marchas</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Únete a nuestro equipo de voluntarios</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Profesores -->
+        <div class="card-hover bg-gradient-to-r from-blue-50 to-indigo-50 border-l-8 border-blue-600">
+          <h4 class="text-3xl font-black text-blue-700 mb-4 flex items-center gap-3">
+            <span class="text-4xl">👨‍🏫</span> Para Docentes
+          </h4>
+          <ul class="grid md:grid-cols-2 gap-6 text-gray-800">
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Firma de apoyo a la iniciativa estudiantil</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Difunde información en clase</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Participa en espacios de diálogo</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Apoya audiencias con autoridades</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- General público -->
+        <div class="card-hover bg-gradient-to-r from-orange-50 to-yellow-50 border-l-8 border-orange-600">
+          <h4 class="text-3xl font-black text-orange-700 mb-4 flex items-center gap-3">
+            <span class="text-4xl">🌍</span> Para la Comunidad General
+          </h4>
+          <ul class="grid md:grid-cols-2 gap-6 text-gray-800">
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Apoya una causa justa y necesaria</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Firma por la equidad en transporte</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Comparte en redes sociales</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-2xl">✅</span>
+              <span class="text-lg font-semibold">Asiste a eventos y manifestaciones</span>
+            </li>
+          </ul>
         </div>
       </div>
+
+      <!-- Contacto -->
+      <div class="glass-effect text-center p-8 md:p-12 rounded-3xl border-2 border-black/10 shadow-2xl bg-white/10 backdrop-blur-md">
+        <h3 class="text-4xl font-black text-black mb-8 flex justify-center items-center gap-3">
+            <span>📞</span> Ponte en Contacto
+        </h3>
+        <p class="text-xl text-black/70 mb-10 max-w-2xl mx-auto">
+            ¿Quieres participar activamente o tienes preguntas? Conecta con nosotros.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 max-w-4xl mx-auto">
+            
+            <a href="mailto:comitecore02@gmail.com" 
+            class="group bg-white/40 p-6 rounded-2xl border border-white/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Gmail" class="w-10 h-10 mb-4 group-hover:scale-110 transition-transform">
+                <p class="text-black/50 text-xs font-bold tracking-widest uppercase mb-1">Correo</p>
+                <p class="text-black font-semibold text-sm break-all">comitecore02@gmail.com</p>
+            </a>
+
+            <a href="https://www.instagram.com/coreutp?igsh=MWpweGJ4OTdhaWQ3aQ==" target="_blank"
+            class="group bg-white/40 p-6 rounded-2xl border border-white/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="w-10 h-10 mb-4 group-hover:scale-110 transition-transform">
+                <p class="text-black/50 text-xs font-bold tracking-widest uppercase mb-1">Instagram</p>
+                <p class="text-black font-bold text-lg">@coreutp</p>
+            </a>
+
+            <a href="https://chat.whatsapp.com/K8HViEgvEjcKqXDaLR0VgZ?mode=gi_t" target="_blank"
+            class="group bg-white/40 p-6 rounded-2xl border border-white/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="w-10 h-10 mb-4 group-hover:scale-110 transition-transform">
+                <p class="text-black/50 text-xs font-bold tracking-widest uppercase mb-1">WhatsApp</p>
+                <p class="text-black font-bold text-lg">Comunidad CORE</p>
+            </a>
+        </div>
+
+        <a href="mailto:comitecore02@gmail.com" 
+        class="inline-flex items-center gap-2 bg-[#00a859] hover:bg-[#008f4c] text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-green-500/30 transition-all transform hover:scale-105">
+            📩 Escríbenos Ahora
+        </a>
+    </div>
     </div>
   </div>
 </section>

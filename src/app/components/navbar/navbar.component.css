@@ -1,4 +1,2 @@
-/* Estilos para el navbar */
-nav a[routerLinkActive] {
-  border-bottom: 2px solid #fbbf24;
-}
+/* Estilos para el navbar */ 
+nav a[routerLinkActive] {   border-bottom: 2px solid #fbbf24; }

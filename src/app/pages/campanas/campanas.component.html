@@ -1,33 +1,114 @@
-<section class="py-16 bg-white">
+<section class="py-20 bg-gradient-to-br from-white via-blue-50 to-indigo-50">
   <div class="container mx-auto px-4">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">Campañas Activas</h2>
+    <div class="max-w-5xl mx-auto">
+      <h2 class="section-title text-6xl mb-4 animate-fadeInDown">
+        Campañas <span class="gradient-text">Activas</span>
+      </h2>
       
-      <div class="bg-gradient-to-r from-green-500 to-blue-500 text-white p-8 rounded-lg mb-8">
-        <h3 class="text-2xl font-bold mb-4">Tarifa Diferencial UTP 2024</h3>
-        <p class="mb-4">
-          Nuestra campaña principal busca conseguir tarifa diferencial para todos los estudiantes 
-          de la Universidad Tecnológica de Pereira ante el transporte público.
-        </p>
-        <div class="bg-white/20 rounded p-4">
-          <p class="text-sm mb-2">Progreso:</p>
-          <div class="w-full bg-white/30 rounded-full h-4">
-            <div class="bg-yellow-400 h-4 rounded-full transition-all duration-500" style="width: 50%"></div>
+      <p class="text-center text-xl text-gray-600 mb-16 max-w-2xl mx-auto">
+        Conoce nuestras iniciativas actuales diseñadas para lograr el cambio que necesitamos.
+      </p>
+
+      <!-- Campaña principal -->
+      <div class="bg-gradient-to-br from-green-500 via-emerald-500 to-blue-600 text-white p-12 rounded-3xl mb-12 shadow-2xl transform hover:scale-105 transition-transform duration-300 border border-white/20">
+        <div class="flex items-start gap-8 mb-8">
+          <div class="text-7xl">🎯</div>
+          <div class="flex-1">
+            <h3 class="text-4xl font-black mb-4">Tarifa Diferencial UTP 2024</h3>
+            <p class="text-xl opacity-90 mb-6">
+              Nuestra campaña principal busca conseguir tarifa diferencial para todos los estudiantes 
+              de la Universidad Tecnológica de Pereira ante el transporte público.
+            </p>
           </div>
-          <p class="text-sm mt-2">5,000 de 10,000 firmas</p>
+        </div>
+        
+        <!-- Barra de progreso mejorada -->
+        <div class="space-y-3">
+          <div class="text-sm font-bold uppercase tracking-widest opacity-80">Progreso Actual</div>
+          <div class="w-full bg-white/20 rounded-full h-8 overflow-hidden border-2 border-white/30">
+            <div class="bg-gradient-to-r from-yellow-300 to-yellow-500 h-8 rounded-full transition-all duration-700 flex items-center justify-end pr-4" style="width: 50%">
+              <span class="text-sm font-black text-gray-900">50%</span>
+            </div>
+          </div>
+          <div class="flex justify-between text-sm font-semibold">
+            <span>5,000 firmas</span>
+            <span>Meta: 10,000 firmas</span>
+          </div>
+        </div>
+        
+        <!-- Botón de acción -->
+        <div class="mt-8 flex justify-center">
+          <a routerLink="/firmas" class="bg-yellow-400 text-gray-900 px-10 py-4 rounded-full font-black text-lg hover:bg-yellow-500 transition-all transform hover:scale-110 shadow-xl">
+            ✍️ Añade Tu Firma
+          </a>
         </div>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="border-l-4 border-green-600 pl-6 py-4">
-          <h4 class="text-xl font-bold mb-2">Sensibilización</h4>
-          <p class="text-gray-700">Educadora a la comunidad universitaria sobre la importancia de la tarifa diferencial.</p>
+      <!-- Fases de la campaña -->
+      <div class="mb-16">
+        <h3 class="text-3xl font-black text-gray-800 mb-8">📋 Fases de la Campaña</h3>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="card-hover border-t-4 border-green-500 bg-gradient-to-br from-green-50 to-transparent">
+            <h4 class="text-2xl font-bold text-green-700 mb-3 flex items-center gap-3">
+              <span class="text-3xl">📣</span> Fase 1: Sensibilización
+            </h4>
+            <p class="text-gray-700">
+              Educamos a la comunidad universitaria sobre la importancia de la tarifa diferencial 
+              y sus impactos en la calidad de vida estudiantil.
+            </p>
+          </div>
+          
+          <div class="card-hover border-t-4 border-blue-500 bg-gradient-to-br from-blue-50 to-transparent">
+            <h4 class="text-2xl font-bold text-blue-700 mb-3 flex items-center gap-3">
+              <span class="text-3xl">✍️</span> Fase 2: Recolección de Firmas
+            </h4>
+            <p class="text-gray-700">
+              Recopilamos apoyo mediante firmas electrónicas, presenciales y eventos comunitarios 
+              en diferentes puntos del campus y la ciudad.
+            </p>
+          </div>
+          
+          <div class="card-hover border-t-4 border-purple-500 bg-gradient-to-br from-purple-50 to-transparent">
+            <h4 class="text-2xl font-bold text-purple-700 mb-3 flex items-center gap-3">
+              <span class="text-3xl">🤝</span> Fase 3: Negociación
+            </h4>
+            <p class="text-gray-700">
+              Presentamos nuestras propuestas y datos a las autoridades competentes 
+              buscando acuerdos concretos y viables.
+            </p>
+          </div>
+          
+          <div class="card-hover border-t-4 border-green-600 bg-gradient-to-br from-emerald-50 to-transparent">
+            <h4 class="text-2xl font-bold text-emerald-700 mb-3 flex items-center gap-3">
+              <span class="text-3xl">🏆</span> Fase 4: Implementación
+            </h4>
+            <p class="text-gray-700">
+              Trabajamos con las autoridades para implementar la tarifa diferencial 
+              y asegurar que llegue a todos los estudiantes.
+            </p>
+          </div>
         </div>
-        
-        <div class="border-l-4 border-blue-600 pl-6 py-4">
-          <h4 class="text-xl font-bold mb-2">Recolección de Firmas</h4>
-          <p class="text-gray-700">Recopilación de apoyo mediante firmas électrónicas y presenciales.</p>
-        </div>
+      </div>
+
+      <!-- Próximas actividades -->
+      <div class="bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-orange-200 rounded-2xl p-8">
+        <h3 class="text-3xl font-black text-orange-700 mb-6 flex items-center gap-3">
+          <span class="text-4xl">📅</span> Próximas Actividades
+        </h3>
+        <ul class="space-y-4">
+          <li class="flex items-center gap-4 text-lg text-gray-700 font-semibold">
+            <span class="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center">✓</span>
+            Recolección de firmas continua en campus UTP
+          </li>
+          <li class="flex items-center gap-4 text-lg text-gray-700 font-semibold">
+            <span class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center">✓</span>
+            Foro abierto de discusión con estudiantes y autoridades
+          </li>
+          <li class="flex items-center gap-4 text-lg text-gray-700 font-semibold">
+            <span class="bg-purple-500 text-white rounded-full w-10 h-10 flex items-center justify-center">✓</span>
+            Marcha pacífica de sensibilización
+          </li>
+        </ul>
       </div>
     </div>
   </div>
