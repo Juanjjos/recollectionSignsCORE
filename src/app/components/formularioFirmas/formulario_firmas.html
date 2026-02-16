@@ -103,6 +103,19 @@
         </p>
       </div>
 
+      <!-- Fecha de nacimiento-->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Fecha de Nacimiento *</label>
+        <input 
+          type="date" 
+          formControlName="fechaNacimiento"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('fechaNacimiento')">
+        <p *ngIf="esInvalido('fechaNacimiento')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('fechaNacimiento') }}
+        </p>
+      </div>
+
       <!-- Tipo de persona -->
       <div class="md:col-span-2">
         <label class="block text-gray-700 font-medium mb-2">Eres *</label>
@@ -137,6 +150,37 @@
         </p>
       </div>
 
+      <!-- Semestre (unicamente si es estudiante)-->
+      <div *ngIf="mostrarSemestre" class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-2">Semestre *</label>
+        <select 
+          formControlName="semestre"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          [class.border-red-500]="esInvalido('semestre')">
+          <option value="">Selecciona tu semestre</option>
+          <option *ngFor="let semestre of semestres" [value]="semestre">
+            {{ semestre }}
+          </option>
+          <option value="Otro">Otro</option>
+        </select>
+
+        <!-- Si el usuario seleccionó "Otro", mostrar campo numérico separado -->
+        <div *ngIf="firmaForm.get('semestre')?.value === 'Otro'" class="mt-2">
+          <input 
+            type="number"
+            min="1"
+            formControlName="semestreOtro"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent mt-2"
+            placeholder="Indica tu semestre (ej. 16)">
+          <p *ngIf="esInvalido('semestreOtro')" class="text-red-500 text-sm mt-1">
+            {{ obtenerMensajeError('semestreOtro') }}
+          </p>
+        </div>
+        <p *ngIf="esInvalido('semestre')" class="text-red-500 text-sm mt-1">
+          {{ obtenerMensajeError('semestre') }}
+        </p>
+        </div>
+
       <!-- Comentario -->
       <div class="md:col-span-2">
         <label class="block text-gray-700 font-medium mb-2">
@@ -157,13 +201,21 @@
             formControlName="aceptaTerminos"
             class="mt-1 mr-2 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded">
           <span class="text-sm text-gray-700">
-            <!-- Aquí se implementará el documento pdf que se tiene de los términos y condiciones de la página para la protección de los datos -->
-            Acepto que mis datos sean utilizados para esta petición y entiendo que 
-            serán compartidos con las autoridades competentes. *
+            Acepto los 
+            <a 
+              href="/assets/Pol%C3%ADtica%20de%20Tratamiento%20de%20Datos.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              (click)="$event.stopPropagation()"
+              class="text-blue-600 underline hover:text-blue-800"
+              title="Abrir Política de Tratamiento de Datos (PDF, se abrirá en nueva pestaña)">
+              términos y condiciones
+            </a>
+            para esta petición y entiendo todo su contenido. *
           </span>
         </label>
         <p *ngIf="esInvalido('aceptaTerminos')" class="text-red-500 text-sm mt-1">
-          Debes aceptar los términos
+          Debes aceptar los términos y condiciones
         </p>
       </div>
 

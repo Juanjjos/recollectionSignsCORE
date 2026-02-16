@@ -9,7 +9,7 @@ import { FirmaCounterService } from '../../services/firma-counter.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './formulario_firmas.html',
-  styleUrl: './formulario_firmas.css'
+  styleUrls: ['./formulario_firmas.css']
 })
 export class Formulario_firmaComponent {
   @Output() firmaGuardada = new EventEmitter<void>(); // ← NUEVO
@@ -27,20 +27,57 @@ export class Formulario_firmaComponent {
   ];
 
   programasAcademicos = [
+    'Administración Ambiental',
+    'Administración de Empresas - Jornada especial',
+    'Administración del Turismo Sostenible',
+    'Administración Industrial',
+    'Ciencias del Deporte y la Recreación',
+    'Física',
+    'Ingeniería Civil',
+    'Ingeniería de Manufactura',
     'Ingeniería de Sistemas y Computación',
-    'Ingeniería Industrial',
+    'Ingeniería de Sistemas y Computación - Jornada especial',
     'Ingeniería Eléctrica',
     'Ingeniería Electrónica',
-    'Ingeniería Mecánica',
     'Ingeniería Física',
-    'Licenciatura en Español y Literatura',
-    'Licenciatura en Pedagogía Infantil',
+    'Ingeniería Industrial',
+    'Ingeniería Industrial - Jornada especial',
+    'Ingeniería Mecánica',
+    'Ingeniería Mecatrónica',
+    'Ingeniería en Procesos Agroindustriales',
+    'Ingeniería en Procesos Sostenibles de las Maderas',
+    'Licenciatura en Artes Visuales',
+    'Licenciatura en Bilingüismo con Énfasis en Inglés',
+    'Licenciatura en Ciencias Sociales',
+    'Licenciatura en Educación Básica Primaria',
+    'Licenciatura en Educación Infantil',
+    'Licenciatura en Etnoeducación',
+    'Licenciatura en Filosofía',
+    'Licenciatura en Literatura y Lengua Castellana',
+    'Licenciatura en Música',
+    'Licenciatura en Tecnología',
+    'Matemáticas',
     'Medicina',
-    'Tecnología Química',
-    'Administración Ambiental',
-    'Administración Industrial',
-    'Diseño Industrial',
-    'Otro'
+    'Medicina Veterinaria y Zootecnia',
+    'Química Industrial',
+    'Tecnología Eléctrica',
+    'Tecnología en Atención Prehospitalaria',
+    'Tecnología en Desarrollo de Procesos Químicos Sostenibles',
+    'Tecnología en Desarrollo del Software',
+    'Tecnología en Diseño y Construcción de Instalaciones Eléctricas de Media y Baja Tensión',
+    'Tecnología en Gestión del Turismo Sostenible',
+    'Tecnología en Gestión Logística',
+    'Tecnología en Procesos de Fabricación Metalmecánica',
+    'Tecnología en Producción Agrícola',
+    'Tecnología en Producción Agrícola Integrada',
+    'Tecnología en Producción Forestal',
+    'Tecnología en Regencia de Farmacia',
+    'Tecnología Industrial',
+    'Tecnología Química'
+  ];
+  
+  semestres = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
   ];
 
   constructor(
@@ -57,6 +94,9 @@ export class Formulario_firmaComponent {
       cedula: ['', [Validators.required, Validators.pattern(/^[0-9]{6,10}$/)]],
       tipoPersona: ['', [Validators.required]],
       programa: [''],
+      semestre: [''],
+      semestreOtro: [''],
+      fechaNacimiento: ['', [Validators.required]],
       campana: ['Tarifa Diferencial UTP'],
       comentario: [''],
       aceptaTerminos: [false, [Validators.requiredTrue]]
@@ -64,13 +104,37 @@ export class Formulario_firmaComponent {
 
     this.firmaForm.get('tipoPersona')?.valueChanges.subscribe(tipo => {
       const programaControl = this.firmaForm.get('programa');
+      const semestreControl = this.firmaForm.get('semestre');
+
       if (tipo === 'estudiante' || tipo === 'docente' || tipo === 'egresado') {
         programaControl?.setValidators([Validators.required]);
       } else {
         programaControl?.clearValidators();
         programaControl?.setValue('');
       }
+
+      if (tipo === 'estudiante') {
+        semestreControl?.setValidators([Validators.required]);
+      } else {
+        semestreControl?.clearValidators();
+        semestreControl?.setValue('');
+      }
+
       programaControl?.updateValueAndValidity();
+      semestreControl?.updateValueAndValidity();
+    });
+
+    // Cuando el usuario selecciona "Otro" en el select de semestre, activar
+    // el control `semestreOtro` con validación numérica (número entero positivo).
+    this.firmaForm.get('semestre')?.valueChanges.subscribe(value => {
+      const semestreOtroControl = this.firmaForm.get('semestreOtro');
+      if (value === 'Otro') {
+        semestreOtroControl?.setValidators([Validators.required, Validators.pattern(/^[1-9][0-9]*$/)]);
+      } else {
+        semestreOtroControl?.clearValidators();
+        semestreOtroControl?.setValue('');
+      }
+      semestreOtroControl?.updateValueAndValidity();
     });
   }
 
@@ -81,10 +145,18 @@ export class Formulario_firmaComponent {
       this.exitoso = false;
 
       try {
-        await this.firebaseService.guardarFirma(this.firmaForm.value);
+        // Construir payload — si el usuario eligió "Otro" usar el valor numérico de `semestreOtro`.
+        const payload = { ...this.firmaForm.value } as any;
+        if (payload.semestre === 'Otro') {
+          payload.semestre = Number(payload.semestreOtro);
+        }
+
+        await this.firebaseService.guardarFirma(payload);
         this.exitoso = true;
         this.firmaGuardada.emit(); // ← EMITIR EVENTO
         this.firmaCounterService.incrementarContador(); // ← NOTIFICAR AL SERVICIO
+
+        // Resetear formulario (incluyendo semestreOtro)
         this.firmaForm.reset();
         this.firmaForm.patchValue({ 
           ciudad: 'Pereira',
@@ -130,6 +202,7 @@ export class Formulario_firmaComponent {
     if (control.errors['pattern']) {
       if (campo === 'telefono') return 'Debe tener 10 dígitos';
       if (campo === 'cedula') return 'Cédula inválida (6-10 dígitos)';
+      if (campo === 'semestreOtro') return 'Ingresa un número de semestre válido (ej. 16)';
     }
     
     return 'Campo inválido';
@@ -138,5 +211,10 @@ export class Formulario_firmaComponent {
   get mostrarPrograma(): boolean {
     const tipo = this.firmaForm.get('tipoPersona')?.value;
     return tipo === 'estudiante' || tipo === 'docente' || tipo === 'egresado';
+  }
+
+  get mostrarSemestre(): boolean {
+    const tipo = this.firmaForm.get('tipoPersona')?.value;
+    return tipo === 'estudiante';
   }
 }

@@ -5,60 +5,41 @@
     <div class="absolute top-0 right-0 w-96 h-96 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
   </div>
 
-  <div class="container mx-auto px-4 py-12 relative z-10">
+  <div class="container mx-auto px-4 py-4 relative z-10">
     <div class="text-center">
-      <h1 class="text-5xl md:text-6xl font-black mb-4 tracking-tight animate-fadeInDown">
+      <h1 class="text-2xl md:text-3xl font-black mb-2 tracking-tight animate-fadeInDown">
         🚌 Tarifa Diferencial UTP
       </h1>
-      <p class="text-xl md:text-2xl mb-8 font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
+      <p class="text-sm md:text-base mb-4 font-light opacity-90 max-w-3xl mx-auto leading-relaxed">
         Por un transporte público accesible y equitativo para todos los estudiantes
       </p>
       
-      <!-- Contador de firmas mejorado -->
-      <div class="bg-slate-900/50 backdrop-blur-xl rounded-2xl p-8 max-w-2xl mx-auto border border-slate-700 shadow-2xl transform hover:scale-[1.02] transition-transform duration-300">
+      <!-- Contador compacto + CTA claro (header más pequeño para que el cambio de página sea visible) -->
+      <div class="bg-slate-900/50 backdrop-blur-xl rounded-2xl p-4 max-w-2xl mx-auto border border-slate-700 shadow-md transform transition-transform duration-200 flex flex-col md:flex-row items-center gap-3 justify-between">
         <!-- Número de firmas principal -->
-        <div class="mb-6">
-          <div class="text-7xl md:text-8xl font-black text-orange-500 mb-2 animate-pulse">
+        <div class="mb-0 md:mb-0 text-center md:text-left">
+          <div class="text-4xl md:text-5xl font-black text-orange-500 mb-0 animate-pulse">
             {{ firmasTotales.toLocaleString() }}
           </div>
-          <div class="text-xl md:text-2xl font-semibold">Firmas recolectadas</div>
-        </div>
-        
-        <!-- Barra de progreso mejorada -->
-        <div class="space-y-3">
-          <div class="text-sm font-semibold uppercase tracking-widest text-slate-400">
-            Progreso de la campaña
-          </div>
-          <div class="w-full bg-slate-800 rounded-full h-6 overflow-hidden border border-slate-700">
-            <div 
-              class="bg-gradient-to-r from-orange-600 to-orange-400 h-6 rounded-full transition-all duration-700 shadow-lg flex items-center justify-end pr-3"
-              [style.width.%]="porcentajeProgreso">
-              <span *ngIf="porcentajeProgreso > 10" class="text-xs font-bold text-gray-900">
-                {{ porcentajeProgreso.toFixed(0) }}%
-              </span>
-            </div>
-          </div>
-          <div class="flex justify-between text-sm font-medium">
-            <span>{{ firmasTotales.toLocaleString() }}</span>
-            <span>Meta: {{ metaFirmas.toLocaleString() }} firmas</span>
-          </div>
+          <div class="text-xs md:text-sm font-semibold text-slate-200">Firmas recolectadas</div>
         </div>
 
-        <!-- Motivación -->
-        <div class="mt-6 pt-6 border-t border-white/10">
-          <p class="text-sm opacity-80">
-            <span *ngIf="porcentajeProgreso < 50" class="animate-bounce">
-              ¡Vamos, que podemos! 💪
-            </span>
-            <span *ngIf="porcentajeProgreso >= 50 && porcentajeProgreso < 100" class="text-orange-400 font-semibold">
-              ¡Ya estamos más cerca! 🎉
-            </span>
-            <span *ngIf="porcentajeProgreso >= 100" class="text-green-300 font-semibold">
-              ¡OBJETIVO ALCANZADO! 🏆
-            </span>
-          </p>
+        <!-- CTA visible que navega a la página de firmas -->
+        <div class="flex flex-col items-center md:items-end gap-2">
+          <a routerLink="/firmas" role="button" aria-label="Firmar petición" class="inline-flex items-center gap-3 bg-yellow-400 text-gray-900 px-4 py-2 rounded-full font-bold hover:bg-yellow-500 transition-transform transform hover:scale-105 shadow-md">
+            ✍️ Firmar ahora
+          </a>
+
+          <!-- Barra de progreso compacta + contador numérico -->
+          <div class="w-48 md:w-64 bg-slate-800 rounded-full h-4 overflow-hidden border border-slate-700 mt-2">
+            <div class="bg-gradient-to-r from-orange-600 to-orange-400 h-4 rounded-full transition-all duration-700 shadow-inner" [style.width.%]="porcentajeProgreso"></div>
+          </div>
+          <div class="text-xs text-slate-300 mt-1">{{ firmasTotales.toLocaleString() }} / {{ metaFirmas.toLocaleString() }} firmas</div>
         </div>
+
       </div>
+
+
     </div>
   </div>
 </header>
