@@ -1,30 +1,44 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { FirebaseService } from './firebase_Service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirmaCounterService {
+export class FirmaCounterService implements OnDestroy {
   private firmasSubject = new BehaviorSubject<number>(0);
   public firmas$ = this.firmasSubject.asObservable();
+  private subscription?: Subscription;
 
   constructor(private firebaseService: FirebaseService) {
-    this.cargarContador();
+    this.iniciarListener();
   }
 
-  async cargarContador() {
-    try {
-      const firmas = await this.firebaseService.obtenerFirmas();
-      this.firmasSubject.next(firmas.length);
-    } catch (error) {
-      console.error('Error al cargar contador:', error);
-    }
+  private iniciarListener() {
+    this.subscription = this.firebaseService.contadorObservable().subscribe({
+      next: (total) => {
+        console.log('✅ FirmaCounterService recibió:', total);
+        this.firmasSubject.next(total);
+      },
+      error: (err) => {
+        console.error('❌ Error en listener de contador:', err);
+        // Reintentar después de 3 segundos si hay error
+        setTimeout(() => this.iniciarListener(), 3000);
+      },
+      complete: () => {
+        // Si el observable se completa inesperadamente, reiniciar
+        console.warn('⚠️ Listener completado inesperadamente, reiniciando...');
+        setTimeout(() => this.iniciarListener(), 1000);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 
   incrementarContador() {
-    const contador = this.firmasSubject.value;
-    this.firmasSubject.next(contador + 1);
+    this.firmasSubject.next(this.firmasSubject.value + 1);
   }
 
   obtenerContador(): Observable<number> {

@@ -1,6 +1,23 @@
+/* Import legacy app styles if needed */
+@import "./app/app.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* PALETA OFICIAL - CORE UTP */
+  --bg-dark: #0f172a; /* slate-900 */
+  --bg-dark-2: #1e293b; /* slate-800 */
+  --accent: #ea580c; /* orange-600 */
+  --accent-hover: #f97316; /* orange-500 */
+  --bg-light: #f8fafc; /* slate-50 */
+  --bg-light-2: #f1f5f9; /* slate-100 */
+  --card-bg: #ffffff;
+  --border-soft: #e6edf2; /* border-slate-200 */
+  --text-dark: #0f172a; /* text-slate-900 */
+  --text-muted: #475569; /* text-slate-700 */
+}
 
 /* Animaciones personalizadas */
 @layer utilities {
@@ -103,31 +120,31 @@
 /* Componentes personalizados */
 @layer components {
   .btn-primary {
-    @apply px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 transform;
+    @apply px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold rounded-xl hover:from-orange-700 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 transform;
   }
 
   .btn-secondary {
-    @apply px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 transform;
+    @apply px-8 py-4 bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold rounded-xl hover:from-slate-800 hover:to-slate-700 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 transform;
   }
 
   .btn-outline {
-    @apply px-8 py-4 border-2 border-green-600 text-green-600 font-bold rounded-xl hover:bg-green-50 transition-all duration-300;
+    @apply px-8 py-4 border-2 border-orange-500 text-orange-600 font-bold rounded-xl hover:bg-orange-50 transition-all duration-300;
   }
 
   .signature-box {
-    @apply border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gradient-to-br from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 transition-all duration-300 shadow-md;
+    @apply border-2 border-dashed border-slate-200 rounded-xl p-6 bg-gradient-to-br from-slate-50 to-slate-100 hover:from-slate-100 hover:to-slate-200 transition-all duration-300 shadow-md;
   }
 
   .card-container {
-    @apply bg-white rounded-2xl shadow-md p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-gray-100 transform;
+    @apply bg-white rounded-2xl shadow-md p-6 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-slate-200 transform;
   }
 
   .card-hover {
-    @apply bg-white rounded-lg shadow-md p-6 hover:shadow-xl hover:scale-105 hover:-translate-y-2 transition-all duration-300 border border-gray-100;
+    @apply bg-white rounded-lg shadow-md p-6 hover:shadow-xl hover:scale-105 hover:-translate-y-2 transition-all duration-300 border border-slate-200;
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-black text-center mb-12 text-gray-800 tracking-tight;
+    @apply text-4xl md:text-5xl font-black text-center mb-12 text-slate-900 tracking-tight;
   }
 
   .glass-effect {
@@ -135,15 +152,32 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent font-black;
+    @apply bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent font-black;
   }
 
   .feature-card {
-    @apply bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:scale-105 transform;
+    @apply bg-gradient-to-br from-white to-slate-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-100 hover:scale-105 transform;
   }
 
   .stat-box {
-    @apply bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6 border-2 border-green-200 text-center hover:shadow-lg transition-all;
+    @apply bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border-2 border-slate-200 text-center hover:shadow-lg transition-all;
+  }
+
+  /* Scroll específico para el modal de donaciones */
+  .donation-scroll {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(234,88,12,0.6) rgba(226,232,240,0.4);
+  }
+  .donation-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .donation-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .donation-scroll::-webkit-scrollbar-thumb {
+    background: rgba(234,88,12,0.6);
+    border-radius: 9999px;
   }
 }
 
@@ -171,5 +205,3 @@ a {
   @apply transition-all duration-300;
 }
 
-/* Import legacy app styles if needed */
-@import "./app/app.css";

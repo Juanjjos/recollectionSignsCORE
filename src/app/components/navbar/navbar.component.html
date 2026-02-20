@@ -4,12 +4,16 @@
       <!-- Logo/Nombre con hover effect -->
       <div class="hover:scale-105 transition-transform duration-300">
         <a routerLink="/">
-        <img
-          src="assets/Logo.png"
-          alt="CORE UTP Logo"
-          class="h-16 w-16 rounded-full object-covershadow-lg">
+          <img
+            ngSrc="assets/Logo.png"
+            alt="CORE UTP Logo"
+            width="900"
+            height="900"
+            priority
+            style="aspect-ratio: 1 / 1;"
+            class="h-16 w-16 rounded-full object-cover shadow-lg">
         </a>
-    </div>
+      </div>
 
       <!-- Menu Desktop -->
       <div class="hidden md:flex items-center space-x-1">
@@ -23,7 +27,7 @@
            class="hover:text-orange-400 transition-all px-8 py-2 font-medium">Campañas</a>
         
         <a routerLink="/aportes" routerLinkActive="text-orange-500 border-b-2 border-orange-500"
-           class="hover:text-orange-400 transition-all px-8 py-2 font-medium">Aportes</a>
+           class="hover:text-orange-400 transition-all px-8 py-2 font-medium">Aporta</a>
 
         <a routerLink="/firmas"
            class="bg-orange-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-orange-500 transition-all shadow-lg ml-4 transform hover:-translate-y-1">
@@ -43,37 +47,21 @@
     <!-- Menu Mobile Expandido con animación -->
     <div 
       *ngIf="isMenuOpen" 
-      class="md:hidden pb-4 space-y-2 animate-fadeIn border-t border-white/20 pt-4">
-      <a 
-        routerLink="/" 
-        (click)="closeMenu()" 
-        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
-        Inicio
-      </a>
-      <a 
-        routerLink="/nosotros" 
-        (click)="closeMenu()" 
-        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
-        Nosotros
-      </a>
-      <a 
-        routerLink="/campanas" 
-        (click)="closeMenu()" 
-        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
-        Campañas
-      </a>
-      <a 
-        routerLink="/aportes" 
-        (click)="closeMenu()" 
-        class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">
-        Aportes
-      </a>
-      <a 
-        routerLink="/firmas" 
-        (click)="closeMenu()" 
-        class="block bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-4 py-3 rounded-lg font-bold hover:from-yellow-500 hover:to-yellow-600 transition-all">
-        ✍️ Firmar
-      </a>
+      class="md:hidden border-t border-white/20 animate-fadeIn">
+      <div class="max-h-[70vh] overflow-y-auto py-4 space-y-2 custom-scrollbar">
+        <a routerLink="/" (click)="closeMenu()" 
+           class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">Inicio</a>
+        <a routerLink="/nosotros" (click)="closeMenu()" 
+           class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">Nosotros</a>
+        <a routerLink="/campanas" (click)="closeMenu()" 
+           class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">Campañas</a>
+        <a routerLink="/aportes" (click)="closeMenu()" 
+           class="block py-3 px-4 hover:bg-white/10 rounded-lg transition-all font-semibold">Aporta</a>
+        <a routerLink="/firmas" (click)="closeMenu()" 
+           class="block bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-4 py-3 rounded-lg font-bold hover:from-yellow-500 hover:to-yellow-600 transition-all">
+           ✍️ Firmar
+        </a>
+      </div>
     </div>
   </div>
 </nav>
