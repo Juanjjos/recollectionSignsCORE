@@ -15,6 +15,11 @@ export class AportesComponent implements OnInit {
   copiedPhone = false;
   accountNumber = '123456789012'; // Reemplaza con el número real
   phoneNumber = '3001234567'; // Reemplaza con el número real
+  // Nu donation key
+  nuKey = '@PRC819';
+  // Link to open Nu donation page (configurable)
+  nuLink = 'https://www.nu.com/';
+  copiedNu = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -53,6 +58,15 @@ export class AportesComponent implements OnInit {
       this.copiedPhone = true;
       setTimeout(() => {
         this.copiedPhone = false;
+      }, 2000);
+    }).catch(err => console.error('Copy failed', err));
+  }
+
+  copyNuKey() {
+    navigator.clipboard.writeText(this.nuKey).then(() => {
+      this.copiedNu = true;
+      setTimeout(() => {
+        this.copiedNu = false;
       }, 2000);
     }).catch(err => console.error('Copy failed', err));
   }

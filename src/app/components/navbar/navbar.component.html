@@ -36,9 +36,11 @@
       </div>
 
       <!-- Menu Mobile (Hamburger) -->
-      <button 
-        (click)="toggleMenu()" 
-        class="md:hidden text-3xl hover:scale-110 transition-transform">
+         <button 
+            type="button"
+            (click)="toggleMenu()" 
+            aria-expanded="{{ isMenuOpen }}"
+            class="md:hidden text-3xl hover:scale-110 transition-transform p-2">
         <span *ngIf="!isMenuOpen">☰</span>
         <span *ngIf="isMenuOpen">✕</span>
       </button>

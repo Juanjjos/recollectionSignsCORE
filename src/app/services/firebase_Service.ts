@@ -8,7 +8,9 @@ import {
   doc, 
   getDoc,
   onSnapshot,
-  DocumentReference
+  DocumentReference,
+  query,   
+  where   
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Firma } from '../models/firma_interface';
@@ -79,6 +81,17 @@ export class FirebaseService {
     } catch (error) {
       console.error('❌ Error al obtener contador:', error);
       return 0;
+    }
+  }
+  async cedulaYaExiste(cedula: string): Promise<boolean> {
+    try {
+      const firmasCollection = collection(this.firestore, 'firmas');
+      const q = query(firmasCollection, where('cedula', '==', cedula));
+      const snapshot = await getDocs(q);
+      return !snapshot.empty;
+    } catch (error) {
+      console.error('❌ Error verificando cédula:', error);
+      return false;
     }
   }
 }

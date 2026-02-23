@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,14 +12,15 @@ import { FirmaCounterService } from '../../services/firma-counter.service';
   templateUrl: './formulario_firmas.html',
   styleUrls: ['./formulario_firmas.css']
 })
-export class Formulario_firmaComponent {
-  @Output() firmaGuardada = new EventEmitter<void>(); // ← NUEVO
+export class Formulario_firmaComponent implements OnInit {
+  @Output() firmaGuardada = new EventEmitter<void>();
 
   firmaForm: FormGroup;
   enviando: boolean = false;
   exitoso: boolean = false;
   error: string = '';
-  maxFecha: string = ''; 
+  maxFecha: string = '';
+  yaFirmo: boolean = false; // ← NUEVO: controla si ya firmó desde este dispositivo
 
   tiposPersona = [
     { valor: 'estudiante', label: 'Estudiante UTP' },
@@ -91,9 +92,7 @@ export class Formulario_firmaComponent {
     'Tecnología'
   ];
   
-  semestres = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-  ];
+  semestres = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
   constructor(
     private fb: FormBuilder,
@@ -102,10 +101,10 @@ export class Formulario_firmaComponent {
     private router: Router
   ) {
     this.firmaForm = this.fb.group({
-          nombre: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/)]],
-          apellido: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/)]],
-          email: ['', [Validators.required, Validators.email]],
-          telefono: ['', [Validators.required, Validators.pattern(/^3[0-9]{9}$/)]],
+      nombre: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/)]],
+      apellido: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.pattern(/^3[0-9]{9}$/)]],
       ciudad: ['Pereira', [Validators.required]],
       cedula: ['', [Validators.required, Validators.pattern(/^[0-9]{6,10}$/)]],
       tipoPersona: ['', [Validators.required]],
@@ -117,7 +116,6 @@ export class Formulario_firmaComponent {
       aceptaTerminos: [false, [Validators.requiredTrue]]
     });
 
-    // establecer maxFecha para el input type="date" (UX: bloquear fechas futuras)
     this.maxFecha = this.formatDate(new Date());
 
     this.firmaForm.get('tipoPersona')?.valueChanges.subscribe(tipo => {
@@ -143,6 +141,38 @@ export class Formulario_firmaComponent {
     });
   }
 
+  ngOnInit() {
+    // ← NUEVO: verificar localStorage al cargar el componente
+    if (localStorage.getItem('coreutp_ya_firmo') === 'true') {
+      this.yaFirmo = true;
+    }
+  }
+
+  onTipoPersonaSelect(event: Event) {
+    const target = event.target as HTMLSelectElement | null;
+    const tipo = target?.value || '';
+    const programaControl = this.firmaForm.get('programa');
+    const semestreControl = this.firmaForm.get('semestre');
+
+    if (tipo === 'estudiante' || tipo === 'docente' || tipo === 'egresado') {
+      programaControl?.setValidators([Validators.required]);
+    } else {
+      programaControl?.clearValidators();
+      programaControl?.setValue('');
+    }
+
+    if (tipo === 'estudiante') {
+      semestreControl?.setValidators([Validators.required]);
+    } else {
+      semestreControl?.clearValidators();
+      semestreControl?.setValue('');
+    }
+
+    programaControl?.updateValueAndValidity();
+    semestreControl?.updateValueAndValidity();
+    this.firmaForm.get('tipoPersona')?.setValue(tipo, { emitEvent: false });
+  }
+
   async onSubmit() {
     if (this.firmaForm.valid) {
       this.enviando = true;
@@ -150,20 +180,34 @@ export class Formulario_firmaComponent {
       this.exitoso = false;
 
       try {
+        // ← NUEVO: Verificar cédula duplicada en Firebase
+        const cedula = this.firmaForm.get('cedula')?.value;
+        const cedulaExiste = await this.firebaseService.cedulaYaExiste(cedula);
+
+        if (cedulaExiste) {
+          this.error = '❌ Esta cédula ya tiene una firma registrada. Solo se permite una firma por persona.';
+          this.enviando = false;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
         const payload = { ...this.firmaForm.value };
         await this.firebaseService.guardarFirma(payload);
-        this.exitoso = true;
-        this.firmaGuardada.emit(); // ← EMITIR EVENTO
-        this.firmaCounterService.incrementarContador(); // ← NOTIFICAR AL SERVICIO
 
-        // Navegar a la página de aportes y abrir el modal de donación
+        // ← NUEVO: Guardar en localStorage que ya firmó desde este dispositivo
+        localStorage.setItem('coreutp_ya_firmo', 'true');
+        this.yaFirmo = true;
+
+        this.exitoso = true;
+        this.firmaGuardada.emit();
+        this.firmaCounterService.incrementarContador();
+
         try {
           await this.router.navigate(['/aportes'], { queryParams: { donate: 'true' } });
         } catch (navErr) {
           console.warn('No se pudo navegar a /aportes:', navErr);
         }
 
-        // Resetear formulario
         this.firmaForm.reset();
         this.firmaForm.patchValue({ 
           ciudad: 'Pereira',
@@ -173,9 +217,7 @@ export class Formulario_firmaComponent {
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        setTimeout(() => {
-          this.exitoso = false;
-        }, 8000);
+        setTimeout(() => { this.exitoso = false; }, 8000);
 
       } catch (err) {
         this.error = 'Hubo un error al guardar tu firma. Por favor intenta de nuevo.';
@@ -206,19 +248,18 @@ export class Formulario_firmaComponent {
     if (control.errors['required']) return 'Este campo es obligatorio';
     if (control.errors['email']) return 'Email inválido';
     if (control.errors['minlength']) return `Mínimo ${control.errors['minlength'].requiredLength} caracteres`;
-        if (control.errors['maxlength']) return `Máximo ${control.errors['maxlength'].requiredLength} caracteres`;
-        if (control.errors['pattern']) {
-          if (campo === 'telefono') return 'Teléfono inválido (debe tener 10 dígitos y empezar por 3)';
-          if (campo === 'cedula') return 'Cédula inválida (6-10 dígitos)';
-          if (campo === 'nombre' || campo === 'apellido') return 'Nombre/Apellido inválido (solo letras y espacios, sin números ni símbolos)';
-        }
+    if (control.errors['maxlength']) return `Máximo ${control.errors['maxlength'].requiredLength} caracteres`;
+    if (control.errors['pattern']) {
+      if (campo === 'telefono') return 'Teléfono inválido (debe tener 10 dígitos y empezar por 3)';
+      if (campo === 'cedula') return 'Cédula inválida (6-10 dígitos)';
+      if (campo === 'nombre' || campo === 'apellido') return 'Nombre/Apellido inválido (solo letras y espacios, sin números ni símbolos)';
+    }
     if (control.errors['futureDate']) return 'La fecha no puede ser en el futuro';
     if (control.errors['minAge']) return 'Debes tener al menos 15 años';
 
     return 'Campo inválido';
   }
 
-  // Validador: no permitir fechas futuras y exigir edad >= 15 años
   fechaNacimientoValidator(minYearsInclusive: number): ValidatorFn {
     return (control: AbstractControl) => {
       const value = control.value;
@@ -238,9 +279,7 @@ export class Formulario_firmaComponent {
   private calculateAge(birthDate: Date, now = new Date()): number {
     let age = now.getFullYear() - birthDate.getFullYear();
     const m = now.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && now.getDate() < birthDate.getDate())) {
-      age--;
-    }
+    if (m < 0 || (m === 0 && now.getDate() < birthDate.getDate())) age--;
     return age;
   }
 
@@ -257,12 +296,10 @@ export class Formulario_firmaComponent {
   }
 
   get mostrarFacultad(): boolean {
-    const tipo = this.firmaForm.get('tipoPersona')?.value;
-    return tipo === 'docente';
+    return this.firmaForm.get('tipoPersona')?.value === 'docente';
   }
 
   get mostrarSemestre(): boolean {
-    const tipo = this.firmaForm.get('tipoPersona')?.value;
-    return tipo === 'estudiante';
+    return this.firmaForm.get('tipoPersona')?.value === 'estudiante';
   }
 }

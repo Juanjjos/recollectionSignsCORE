@@ -1,108 +1,92 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-import {onDocumentCreated} from "firebase-functions/v2/firestore";
-import {onRequest} from "firebase-functions/v2/https";
-import * as admin from "firebase-admin";
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 
-// Inicializar Firebase Admin
 admin.initializeApp();
 const db = admin.firestore();
 
 /**
- * Cloud Function que se dispara cada vez que se crea una firma
- * Incrementa automáticamente el contador en /estadisticas/contador
+ * Cloud Function que se dispara cada vez que se crea un documento en /firmas
+ * Automáticamente incrementa el contador en /estadisticas/contador
  */
-export const incrementarContador = onDocumentCreated(
-  "firmas/{firmaId}",
-  async (event) => {
+export const incrementarContador = functions.firestore
+  .document('firmas/{firmaId}')
+  .onCreate(async (snap, context) => {
     try {
-      // Obtener los datos de la firma recién creada
-      const firmaData = event.data?.data();
+      const firmaData = snap.data();
       
-      if (!firmaData) {
-        console.error("❌ No se pudieron obtener los datos de la firma");
-        return;
-      }
-
-      console.log("✅ Nueva firma creada:", {
-        firmaId: event.params.firmaId,
+      console.log('✅ Nueva firma creada:', {
+        firmaId: context.params.firmaId,
         email: firmaData.email,
         nombre: firmaData.nombre,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       });
 
-      // Referencia al documento contador
-      const contadorRef = db.collection("estadisticas").doc("contador");
+      // Incrementar el contador usando FieldValue.increment
+      // Esto es atomático y seguro incluso con múltiples operaciones simultáneas
+      const updateResult = await db.collection('estadisticas').doc('contador').update({
+        total: admin.firestore.FieldValue.increment(1),
+        ultimaActualizacion: admin.firestore.Timestamp.now(),
+        ultimaFirma: {
+          nombre: firmaData.nombre,
+          apellido: firmaData.apellido,
+          timestamp: admin.firestore.Timestamp.now()
+        }
+      });
 
-      // Intentar actualizar el contador
-      try {
-        await contadorRef.update({
-          total: admin.firestore.FieldValue.increment(1),
-          ultimaActualizacion: admin.firestore.Timestamp.now(),
-          ultimaFirma: {
-            nombre: firmaData.nombre,
-            apellido: firmaData.apellido,
-            timestamp: admin.firestore.Timestamp.now(),
-          },
-        });
+      console.log('✅ Contador actualizado exitosamente');
+      return updateResult;
 
-        console.log("✅ Contador actualizado exitosamente");
-      } catch (updateError: any) {
-        // Si el documento no existe, crearlo
-        if (updateError.code === 5) { // NOT_FOUND
-          console.log("⚠️ Documento contador no existe, creándolo...");
-          
-          await contadorRef.set({
+    } catch (error: any) {
+      // Si el documento /estadisticas/contador no existe, lo crea
+      if (error.code === 'NOT_FOUND') {
+        console.log('⚠️ Documento contador no existe, creándolo...');
+        
+        try {
+          await db.collection('estadisticas').doc('contador').set({
             total: 1,
             ultimaActualizacion: admin.firestore.Timestamp.now(),
             ultimaFirma: {
-              nombre: firmaData.nombre,
-              apellido: firmaData.apellido,
-              timestamp: admin.firestore.Timestamp.now(),
-            },
+              nombre: snap.data().nombre,
+              apellido: snap.data().apellido,
+              timestamp: admin.firestore.Timestamp.now()
+            }
           });
           
-          console.log("✅ Documento contador creado exitosamente");
-        } else {
-          throw updateError;
+          console.log('✅ Documento contador creado exitosamente');
+          return;
+        } catch (createError) {
+          console.error('❌ Error al crear contador:', createError);
+          throw createError;
         }
       }
-    } catch (error) {
-      console.error("❌ Error al procesar la firma:", error);
+
+      console.error('❌ Error al actualizar contador:', error);
+      throw error;
     }
-  }
-);
+  });
 
 /**
- * Cloud Function HTTP para obtener el contador actual
- * URL: https://[region]-[project-id].cloudfunctions.net/obtenerContador
+ * Cloud Function HTTP para obtener el contador actual (opcional - para debug)
+ * URL: https://[region]-[project].cloudfunctions.net/obtenerContador
  */
-export const obtenerContador = onRequest(
-  {cors: true}, // Habilitar CORS para llamadas desde tu web
-  async (req, res) => {
-    try {
-      const doc = await db.collection("estadisticas").doc("contador").get();
-      
-      if (!doc.exists) {
-        res.status(404).json({error: "Contador no encontrado", total: 0});
-        return;
-      }
-
-      const data = doc.data();
-      res.status(200).json({
-        total: data?.total || 0,
-        ultimaActualizacion: data?.ultimaActualizacion,
-        ultimaFirma: data?.ultimaFirma,
-      });
-    } catch (error) {
-      console.error("❌ Error al obtener contador:", error);
-      res.status(500).json({error: "Error al obtener contador"});
+export const obtenerContador = functions.https.onRequest(async (req, res) => {
+  try {
+    const doc = await db.collection('estadisticas').doc('contador').get();
+    
+    if (!doc.exists) {
+      res.status(404).json({ error: 'Contador no encontrado' });
+      return;
     }
+
+    const data = doc.data();
+    res.status(200).json({
+      total: data?.total || 0,
+      ultimaActualizacion: data?.ultimaActualizacion,
+      ultimaFirma: data?.ultimaFirma
+    });
+
+  } catch (error) {
+    console.error('Error al obtener contador:', error);
+    res.status(500).json({ error: 'Error al obtener contador' });
   }
-);
+});
